@@ -1,4 +1,4 @@
-// Displays a random sight word for your little one to guess.
+// Displays a random sight word for your little one to learn.
 //
 
 #include <iostream>

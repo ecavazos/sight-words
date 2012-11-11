@@ -2,12 +2,14 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <string>
+
+#include "words.h"
 
 using namespace std;
 
-const int WORD_COUNT = 60;
-const int CACHE_SIZE = WORD_COUNT / 2;
+const int CACHE_SIZE = 25;
 
 bool IsIndexInCache(int [], int, int);
 void UpdateCache(int (&)[CACHE_SIZE], int);
@@ -15,28 +17,16 @@ void UpdateCache(int (&)[CACHE_SIZE], int);
 int main() {
 
   int index = 0;
-  int last_n_words [CACHE_SIZE] = {};
+  int last_n_words[CACHE_SIZE] = {};
 
-  string words[WORD_COUNT] = {
-    "And"    , "The"   , "Is"    , "He"    , "Like" ,
-    "Said"   , "Play"  , "A"     , "For"   , "Here" ,
-    "She"    , "Have"  , "Me"    , "To"    , "Go"   ,
-    "Look"   , "My"    , "Are"   , "Book"  , "Game" ,
-    "Fat"    , "Cat"   , "Dog"   , "Car"   , "Bat"  ,
-    "Who"    , "What"  , "Where" , "Why"   , "How"  ,
-    "I"      , "Boy"   , "Girl"  , "Stop"  , "Man"  ,
-    "Woman"  , "Hello" , "Hi"    , "Yes"   , "No"   ,
-    "Please" , "Help"  , "Nice"  , "Bad"   , "Good" ,
-    "Ice"    , "One"   , "Win"   , "End"   , "Bend" ,
-    "In"     , "Get"   , "Water" , "Gas"   , "Fast" ,
-    "Bed"    , "Cup"   , "Food"  , "Happy" , "Sad"
-  };
+  const vector<string> words = Words::GetWords();
 
   srand( time(0) );
 
   while (true) {
     system("clear");
-    index = rand() % WORD_COUNT;
+
+    index = rand() % Words::GetWords().size();
 
     if (IsIndexInCache(last_n_words, index, CACHE_SIZE)) continue;
 

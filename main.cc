@@ -6,18 +6,17 @@
 #include <string>
 
 #include "words.h"
+#include "word_cache.h"
 
 using namespace std;
 
 const int CACHE_SIZE = 25;
 
-bool IsIndexInCache(int [], int, int);
-void UpdateCache(int (&)[CACHE_SIZE], int);
-
 int main() {
 
-  int index = 0;
-  int last_n_words[CACHE_SIZE] = {};
+  int word_index = 0;
+
+  WordCache* cache = new WordCache(CACHE_SIZE);
 
   const vector<string> words = Words::GetWords();
 
@@ -26,34 +25,23 @@ int main() {
   while (true) {
     system("clear");
 
-    index = rand() % Words::GetWords().size();
+    word_index = rand() % Words::GetWords().size();
 
-    if (IsIndexInCache(last_n_words, index, CACHE_SIZE)) continue;
+    // Skip the word if it is in the cache
+    if (cache->IsIndexInCache(word_index)) continue;
 
-    UpdateCache(last_n_words, index);
+    // Add the word's index to the cache
+    cache->UpdateCache(word_index);
 
-    cout << words[index] << endl;
+    // Output the next word
+    cout << words[word_index] << endl;
+
+    // Wait for the Enter key
     cin.ignore();
   }
 
+  delete cache;
+
   return 0;
-}
-
-bool IsIndexInCache(int cache[], int new_index, int cache_size) {
-  // This is to prevent words from displaying too often.
-  for (int i = 0; i < CACHE_SIZE; i++) {
-    // cout << cache[i] << endl;
-    if (new_index == cache[i]) return true;
-  }
-  return false;
-}
-
-void UpdateCache(int (&cached_words)[CACHE_SIZE], int new_index) {
-  // Add the new index to the front of the cached and shift the remaining items
-  // over by one. This will drop off the oldest index in the cache.
-  for (int i = (CACHE_SIZE - 1); i > 0; i--) {
-    cached_words[i] = cached_words[i-1];
-  }
-  cached_words[0] = new_index;
 }
 

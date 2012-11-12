@@ -2,7 +2,7 @@
 
 WordCache::WordCache(int cache_size) {
   cache_size_ = cache_size;
-  cached_words_ = new int [25];
+  cached_words_ = new int [cache_size_];
 }
 
 WordCache::~WordCache() {
